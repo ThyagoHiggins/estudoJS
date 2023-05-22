@@ -77,41 +77,66 @@
         </div>
       </section>
 
-      <button id="copy-2">Copiar senha</button>
+      <div class="submit">
+        <button id="copy-2">Copiar senha</button>
+      </div>
     </main>
-    <script>
-      const inputEl = document.querySelector("#password")
 
-      let passwordLength = 16
+    <script>
+      const inputEl = document.querySelector("#password");
+      const upperCaseEl = document.querySelector('#uppercase-check');
+      const numberCaseEl = document.querySelector('#number-check');
+      const symbolCaseEl = document.querySelector('#symbol-check');
+
+      let passwordLength = 16;
 
       function generatePassword() {
-        const chars =
-          "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789?!@&*()[]"
+        let chars =
+          "abcdefghjkmnpqrstuvwxyz";
+        const upperCaseChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        const numberChars = '123456789';
+        const symbolChars = '?!@&*()[]';
 
-        let password = ""
-
-        for (let i = 0; i < passwordLength; i++) {
-          const randomNumber = Math.floor(Math.random() * chars.length)
-          password += chars.substring(randomNumber, randomNumber + 1)
+        if(upperCaseEl.checked){
+          chars += upperCaseChars
         }
 
-        inputEl.value = password
+        if(numberCaseEl.checked){
+          chars += numberChars
+        }
+
+        if(symbolCaseEl.checked){
+          chars += symbolChars
+        }
+
+        let password = "";
+
+        for (let i = 0; i < passwordLength; i++) {
+          const randomNumber = Math.floor(Math.random() * chars.length);
+          password += chars.substring(randomNumber, randomNumber + 1);
+        }
+
+        inputEl.value = password;
       }
 
       function copy() {
-        navigator.clipboard.writeText(inputEl.value)
+        navigator.clipboard.writeText(inputEl.value);
       }
 
-      const passwordLengthEl = document.querySelector("#password-length")
+      const passwordLengthEl = document.querySelector("#password-length");
       passwordLengthEl.addEventListener("input", function () {
-        passwordLength = passwordLengthEl.value
-        generatePassword()
-      })
+        passwordLength = passwordLengthEl.value;
+        generatePassword();
+      });
 
-      document.querySelector("#copy-1").addEventListener("click", copy)
-      document.querySelector("#copy-2").addEventListener("click", copy)
+      upperCaseEl.addEventListener('click',generatePassword);
+      numberCaseEl.addEventListener('click',generatePassword);
+      symbolCaseEl.addEventListener('click',generatePassword)
 
-      generatePassword()
+      document.querySelector("#copy-1").addEventListener("click", copy);
+      document.querySelector("#copy-2").addEventListener("click", copy);
+
+      generatePassword();
     </script>
   </body>
 </html>
